@@ -1,8 +1,15 @@
 <?php
+include('../vendor/autoload.php');
 
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-    echo 'This is a server using Windows!';
-} else {
-    echo 'This is a server not using Windows!';
-}
-?>
+use Pdftk\Pdftk;
+use Pdftk\File\Input;
+
+$sPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'pdfs' . DIRECTORY_SEPARATOR;
+
+$oTmp = new Input(array("filename" => $sPath . 'example.pdf', 'start_page' => 2));
+
+$oPDFTk = new pdftk();
+$oPDFTk ->setInputFile($oTmp)
+        ->setInputFile(array("filename" => $sPath . 'example2.pdf', 'rotation' => 90))
+        ->setInputFile(array("filename" => $sPath . 'example2.pdf', 'password' => 'password', 'alternate' => 'odd'))
+        ->inlineOutput('example4output.pdf', false);
